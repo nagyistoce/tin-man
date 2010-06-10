@@ -11,7 +11,9 @@ The physical hinge is accompanied by two active components:
  # A sensor that measures the angle of the hinge, called a *[Perceptors#HingeJointPerceptor HingeJointPerceptor]*.
  # A motor that changes the angle of the hinge, called a *[Effectors#HingeJointEffector HingeJointEffector]*.
 
-[Nao] has 22 hinges in his body.  So we say that Nao has 22 _degrees of freedom_ (DOF).
+When a hinge's angle is zero, then the axes of the two limbs it joins are parallel.  For example, when the elbow hinge is at zero degrees, the arm is straight.  Similarly, when the knee is at zero degrees, the leg is straight.
+
+[Nao] has 22 hinges in his body.  So we say that Nao has 22 _degrees of freedom_ (DOF).  When all of Nao's hinges are at zero degrees he is standing upright, looking straight ahead and with arms extended out in front of him, like a zombie.
 
 = Reading Current Hinge Position =
 
