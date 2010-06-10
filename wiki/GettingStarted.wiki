@@ -1,4 +1,5 @@
-=Getting Set Up=
+#labels Featured,Phase-Deploy,Phase-Implementation
+=Environment Set Up=
 
 [http://code.google.com/p/tin-man/downloads/list Download] either the source code or the compiled DLL and reference it from your project.
 
