@@ -66,4 +66,4 @@ private static IEffectorCommand MoveToAngle(Hinge hinge, PerceptorState state, A
 }
 }}}
 
-There is no single approach for moving hinges to a particular angle.  You may want to use several approaches within the one agent for different scenarios, needing precision in one case and power in another.  _!TinMan_ provides the right level of abstraction to make easy things easy and advanced things possible.
+There is no single approach for moving hinges to a particular angle.  You may want to use several approaches within the one agent for different scenarios, needing precision in one case and power in another.
