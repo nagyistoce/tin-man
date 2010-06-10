@@ -1,0 +1,65 @@
+#summary Working with hinges
+
+= Introduction =
+
+RoboCup3D agents are modelled as articulated rigid bodies and can be thought of as limbs connected via hinges.  In order to move the limbs, your agent software controls the hinge angles.
+
+= Hinge Anatomy =
+
+The physical hinge is accompanied by two active components:
+
+ # A sensor that measures the angle of the hinge, called a *[Perceptors#HingeJointPerceptor HingeJointPerceptor]*.
+ # A motor that changes the angle of the hinge, called a *[Effectors#HingeJointEffector HingeJointEffector]*.
+
+[Nao] has 22 hinges in his body.  So we say that Nao has 22 _degrees of freedom_ (DOF).
+
+= Reading Current Hinge Position =
+
+The current state of all hinge joints is available via `PerceptorState`.  For convenience, all of Nao's hinges are defined on the `NaoHinge` class.  You can use them together like this:
+
+{{{
+Angle currentAngle = state.GetHingeJointAngle(NaoHinge.HJ1);
+Console.WriteLine("Nao's neck is at an angle of {0}", currentAngle.Degrees);
+}}}
+
+= Moving a Hinge =
+
+The simulator will move a hinge when you returning an instance of [Effectors#MoveHingeJointCommand MoveHingeJointCommand] from your `IAgent.Step` implementation:
+
+{{{
+public IEnumerable<IEffectorCommand> Step(PerceptorState state) {
+  return new [] { 
+    new MoveHingeJointCommand(NaoHinge.LAJ1, AngularSpeed.FromDegreesPerSecond(5))
+  };
+}
+}}}
+
+This sample sets the speed of rotation for Nao's neck hinge.
+
+The effector remembers the speed value set for each hinge.  If, during the next call to `IAgent.Step`, you don't set a new speed for that hinge then the hinge will continue moving until it reaches its extremity.
+
+= Hinge Limits =
+
+Just like real hinges, simulated hinges can only move through a given arc.  The `Hinge` class defines these limits:
+
+{{{
+// Prints: Nao's neck can rotate from -120 to 120 degrees.
+Console.WriteLine("Nao's neck can rotate from {0} to {1} degrees.",
+                  NaoHinge.HJ1.MinAngle.Degrees,
+                  NaoHinge.HJ1.MaxAngle.Degrees);
+}}}
+
+Some convenience methods are defined on the `Hinge` class as well:
+
+{{{
+var badAngle = Angle.FromDegrees(121);
+
+// Throws ArgumentOutOfRangeException
+NaoHinge.HJ1.ValidateAngle(badAngle);
+
+// Returns false
+NaoHinge.HJ1.IsValidAngle(badAngle);
+
+// Returns the closest valid angle for the hinge
+var goodAngle = NaoHinge.HJ1.LimitAngle(badAngle);
+}}}
