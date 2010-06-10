@@ -1,0 +1,68 @@
+=Getting Set Up=
+
+[http://code.google.com/p/tin-man/downloads/list Download] either the source code or the compiled DLL and reference it from your project.
+
+If you don't have a RoboCup3D server and monitor installed on your computer, check one of these pages:
+
+ * [http://simspark.sourceforge.net/wiki/index.php/Installation_on_Windows Installation on Windows]
+ * [http://simspark.sourceforge.net/wiki/index.php/Installation_on_Linux Installation on Linux]
+ * [http://simspark.sourceforge.net/wiki/index.php/Installation_on_Mac_OS_X Installation on OSX]
+
+=Your First Agent=
+
+You don't need very much code to get started.  Here's about the minimum you can get away with:
+
+{{{
+class SampleAgent : IAgent {
+  public string RsgPath { 
+    get { return Nao.RsgFilePath; }
+  }
+  public IEnumerable<IEffectorCommand> Step(PerceptorState state) {
+    // TODO do cool stuff in here
+    return null;
+  }
+}
+
+class Program {
+  static void Main() {
+    new Client().Run(new SampleAgent());
+  }
+}
+}}}
+
+Those few lines of code will cause a Nao robot to materialise on your soccer field, practically begging you to code some life into it.
+
+To actually move the robot, you could do something like this:
+
+{{{
+public IEnumerable<IEffectorCommand> Step(PerceptorState state) {
+  var speed = AngularSpeed.FromDegreesPerSecond(200);
+  bool isIncreasing = (state.SimulationTime.Seconds%2==0);
+  return new [] { 
+    new MoveHingeJointAction(NaoHinge.HJ1, isIncreasing ? speed : -speed)
+  };
+}
+}}}
+
+That code moves `HJ1` (the neck) back and forth at 200 degrees/sec, alternating every second of the simulation.  This `Step` method will be called every 20 milliseconds of simulated time (which may be slower or faster than real time).  Nao will stand there shaking his head, indefinitely.  Of course, while he's doing so his camera is panning and identifying the location of markers of the field, the ball and other players, all of which are being provided to this method as properties of `PerceptorState`.
+
+Sometimes you need to move part of the body to an exact angle.  As only angular speeds may be sent to the hinge motor, we need a way of controlling the motion of the hinge with a negative feedback loop.
+
+{{{
+public IEnumerable<IEffectorCommand> Step(PerceptorState state) {
+  // Alternate between +/- 45 degrees, switching every two seconds
+  var targetAngle = (state.SimulationTime.Seconds%4>=2) ? 45 : -45;
+  return new [] {
+    // Move Nao's left arm, at the first joint
+    MoveToAngle(NaoHinge.LAJ1, state, Angle.FromDegrees(targetAngle))
+  };
+}
+private static IEffectorCommand MoveToAngle(Hinge hinge, PerceptorState state, Angle targetAngle) {
+  Angle currentAngle = state.GetHingeJointAngle(hinge);
+  Angle angularDistance = targetAngle - currentAngle;
+  AngularSpeed speed = angularDistance / TimeSpan.FromSeconds(5);
+  return new MoveHingeJointAction(hinge, speed);
+}
+}}}
+
+There is no single approach for moving hinges to a particular angle.  You may want to use several approaches within the one agent for different scenarios, needing precision in one case and power in another.  _!TinMan_ provides the right level of abstraction to make easy things easy and advanced things possible.
