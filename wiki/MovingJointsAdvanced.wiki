@@ -1,4 +1,6 @@
-#summary Moving Joints (Advanced)
+#summary A discussion of the finer points of agent joint movement
+
+If you are unfamiliar with agent joints, read [MovingJointsBasic] first.
 
 = Introduction =
 
