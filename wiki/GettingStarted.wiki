@@ -14,6 +14,8 @@ If you don't have a RoboCup3D server and monitor installed on your computer, che
 You don't need very much code to get started.  Here's about the minimum you can get away with:
 
 {{{
+using TinMan;
+
 class SampleAgent : IAgent
 {
   private readonly NaoBody _body = new NaoBody();
@@ -47,7 +49,7 @@ public void Step(ISimulationContext context, PerceptorState state)
 }
 }}}
 
-That code moves `HJ1` (the neck) back and forth at 200 degrees/sec, alternating every second of the simulation.  This `Step` method will be called every 20 milliseconds of simulated time (which may be slower or faster than real time).  Nao will stand there shaking his head, indefinitely.  Of course, while he's doing so his camera is panning and identifying the location of markers of the field, the ball and other players, all of which are being provided to this method as properties of `PerceptorState`.
+That code moves `HJ1` (the neck) back and forth at 200 degrees/sec, alternating every second of the simulation.  This `Step` method will be called every 20 milliseconds of simulated time (which may be slower or faster than real time).  Nao will stand there shaking his head, indefinitely.  Of course, while he's doing this his camera is reading the location of landmarks on the field, the ball and other players, all of which are being provided to this method as properties of the `PerceptorState` passed into this `Step` method.
 
 Sometimes you need to move part of the body to an exact angle.  As only angular speeds may be sent to the hinge motor, we need a way of controlling the motion of the hinge with a negative feedback loop.
 
@@ -76,6 +78,6 @@ private static void MoveToAngle(Hinge hinge, Angle targetAngle)
 }
 }}}
 
-Note that we must set a value of zero for the hinge's speed in order for the hinge to stop moving.  Each hinges maintain their speed value across multiple simulation cycles unless it is changed.
+Note that we must set a value of zero for the hinge's speed in order for the hinge to stop moving.  Each hinge maintains the same speed value across multiple simulation cycles unless it is changed.
 
 There is no single approach for moving hinges to a particular angle.  You may want to use several approaches within the one agent for different scenarios, needing precision in one case and power in another.
