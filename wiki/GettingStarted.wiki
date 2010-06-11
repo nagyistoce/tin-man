@@ -14,17 +14,19 @@ If you don't have a RoboCup3D server and monitor installed on your computer, che
 You don't need very much code to get started.  Here's about the minimum you can get away with:
 
 {{{
-class SampleAgent : IAgent {
+class SampleAgent : IAgent
+{
   private readonly NaoBody _body = new NaoBody();
-  public IBody Body { get { return _body; } }
-  public void Step(ISimulationContext context, PerceptorState state) {
-    // TODO do cool stuff in here
-    return null;
-  }
-}
 
-class Program {
-  static void Main() {
+  public IBody Body { get { return _body; } }
+
+  public void Step(ISimulationContext context, PerceptorState state)
+  {
+    // TODO do cool stuff in here
+  }
+
+  static void Main()
+  {
     new Client().Run(new SampleAgent());
   }
 }
@@ -39,6 +41,8 @@ public void Step(ISimulationContext context, PerceptorState state)
 {
   var speed = AngularSpeed.FromDegreesPerSecond(200);
   bool isIncreasing = (state.SimulationTime.Seconds%2==0);
+
+  // Set the neck hinge speed
   _body.HJ1.Speed = isIncreasing ? speed : -speed;
 }
 }}}
