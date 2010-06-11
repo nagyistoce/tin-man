@@ -16,11 +16,10 @@ You don't need very much code to get started.  Here's about the minimum you can 
 {{{
 using TinMan;
 
-class SampleAgent : IAgent
+class SampleAgent : AgentBase<NaoBody>
 {
-  private readonly NaoBody _body = new NaoBody();
-
-  public IBody Body { get { return _body; } }
+  public SampleAgent()
+    : base(new NaoBody()) {}
 
   public void Step(ISimulationContext context, PerceptorState state)
   {
