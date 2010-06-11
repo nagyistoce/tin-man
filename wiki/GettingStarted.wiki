@@ -1,7 +1,7 @@
 #labels Featured,Phase-Deploy,Phase-Implementation
 =Environment Set Up=
 
-[http://code.google.com/p/tin-man/downloads/list Download] either the source code or the compiled DLL and reference it from your project.
+[http://code.google.com/p/tin-man/downloads/list Download] either the source code or the compiled `TinMan.dll` and reference it from your project.
 
 If you don't have a RoboCup3D server and monitor installed on your computer, check one of these pages:
 
