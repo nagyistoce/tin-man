@@ -15,10 +15,9 @@ You don't need very much code to get started.  Here's about the minimum you can 
 
 {{{
 class SampleAgent : IAgent {
-  public string RsgPath { 
-    get { return Nao.RsgFilePath; }
-  }
-  public IEnumerable<IEffectorCommand> Step(PerceptorState state) {
+  private readonly NaoBody _body = new NaoBody();
+  public IBody Body { get { return _body; } }
+  public void Step(ISimulationContext context, PerceptorState state) {
     // TODO do cool stuff in here
     return null;
   }
@@ -36,12 +35,11 @@ Those few lines of code will cause a Nao robot to materialise on your soccer fie
 To actually move the robot, you could do something like this:
 
 {{{
-public IEnumerable<IEffectorCommand> Step(PerceptorState state) {
+public void Step(ISimulationContext context, PerceptorState state)
+{
   var speed = AngularSpeed.FromDegreesPerSecond(200);
   bool isIncreasing = (state.SimulationTime.Seconds%2==0);
-  return new [] { 
-    new MoveHingeJointAction(NaoHinge.HJ1, isIncreasing ? speed : -speed)
-  };
+  _body.HJ1.Speed = isIncreasing ? speed : -speed;
 }
 }}}
 
@@ -50,20 +48,30 @@ That code moves `HJ1` (the neck) back and forth at 200 degrees/sec, alternating 
 Sometimes you need to move part of the body to an exact angle.  As only angular speeds may be sent to the hinge motor, we need a way of controlling the motion of the hinge with a negative feedback loop.
 
 {{{
-public IEnumerable<IEffectorCommand> Step(PerceptorState state) {
+public void Step(ISimulationContext context, PerceptorState state)
+{
   // Alternate between +/- 45 degrees, switching every two seconds
-  var targetAngle = (state.SimulationTime.Seconds%4>=2) ? 45 : -45;
-  return new [] {
-    // Move Nao's left arm, at the first joint
-    MoveToAngle(NaoHinge.LAJ1, state, Angle.FromDegrees(targetAngle))
-  };
+  bool isIncreasing = state.SimulationTime.Seconds%4 >= 2;
+  var targetAngle = Angle.FromDegrees(isIncreasing ? 45 : -45);
+
+  // Move Nao's left arm, at the first joint
+  MoveToAngle(_body.LAJ1, targetAngle);
 }
-private static IEffectorCommand MoveToAngle(Hinge hinge, PerceptorState state, Angle targetAngle) {
-  Angle currentAngle = state.GetHingeJointAngle(hinge);
-  Angle angularDistance = targetAngle - currentAngle;
-  AngularSpeed speed = angularDistance / TimeSpan.FromSeconds(5);
-  return new MoveHingeJointAction(hinge, speed);
+
+private static void MoveToAngle(Hinge hinge, Angle targetAngle)
+{
+  // The speed we set is a factor of the distance.  As we approach the
+  // target angle, the distance decreases and so does the angular speed.
+  Angle angularDistance = targetAngle - hinge.Angle;
+
+  // If we're within one degree of the target, completely stop the hinge moving.
+  if (angularDistance.Abs < Angle.FromDegrees(1))
+    hinge.Speed = AngularSpeed.Zero;
+  else
+    hinge.Speed = angularDistance / TimeSpan.FromSeconds(5);
 }
 }}}
+
+Note that we must set a value of zero for the hinge's speed in order for the hinge to stop moving.  Each hinges maintain their speed value across multiple simulation cycles unless it is changed.
 
 There is no single approach for moving hinges to a particular angle.  You may want to use several approaches within the one agent for different scenarios, needing precision in one case and power in another.
