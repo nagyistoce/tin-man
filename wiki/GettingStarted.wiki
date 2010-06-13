@@ -18,18 +18,18 @@ using TinMan;
 
 class SampleAgent : AgentBase<NaoBody>
 {
-  public SampleAgent()
-    : base(new NaoBody()) {}
+    public SampleAgent()
+      : base(new NaoBody()) {}
 
-  public void Step(ISimulationContext context, PerceptorState state)
-  {
-    // TODO do cool stuff in here
-  }
+    public void Step(ISimulationContext context, PerceptorState state)
+    {
+      // TODO do cool stuff in here
+    }
 
-  static void Main()
-  {
-    new Client().Run(new SampleAgent());
-  }
+    static void Main()
+    {
+      new Client().Run(new SampleAgent());
+    }
 }
 }}}
 
@@ -40,11 +40,11 @@ To actually move the robot, you could do something like this:
 {{{
 public void Step(ISimulationContext context, PerceptorState state)
 {
-  var speed = AngularSpeed.FromDegreesPerSecond(200);
-  bool isIncreasing = (state.SimulationTime.Seconds%2==0);
+    var speed = AngularSpeed.FromDegreesPerSecond(200);
+    bool isIncreasing = (state.SimulationTime.Seconds%2==0);
 
-  // Set the neck hinge speed
-  _body.HJ1.Speed = isIncreasing ? speed : -speed;
+    // Set the neck hinge speed
+    _body.HJ1.Speed = isIncreasing ? speed : -speed;
 }
 }}}
 
@@ -55,25 +55,25 @@ Sometimes you need to move part of the body to an exact angle.  As only angular 
 {{{
 public void Step(ISimulationContext context, PerceptorState state)
 {
-  // Alternate between +/- 45 degrees, switching every two seconds
-  bool isIncreasing = state.SimulationTime.Seconds%4 >= 2;
-  var targetAngle = Angle.FromDegrees(isIncreasing ? 45 : -45);
+    // Alternate between +/- 45 degrees, switching every two seconds
+    bool isIncreasing = state.SimulationTime.Seconds%4 >= 2;
+    var targetAngle = Angle.FromDegrees(isIncreasing ? 45 : -45);
 
-  // Move Nao's left arm, at the first joint
-  MoveToAngle(_body.LAJ1, targetAngle);
+    // Move Nao's left arm, at the first joint
+    MoveToAngle(_body.LAJ1, targetAngle);
 }
 
 private static void MoveToAngle(Hinge hinge, Angle targetAngle)
 {
-  // The speed we set is a factor of the distance.  As we approach the
-  // target angle, the distance decreases and so does the angular speed.
-  Angle angularDistance = targetAngle - hinge.Angle;
+    // The speed we set is a factor of the distance.  As we approach the
+    // target angle, the distance decreases and so does the angular speed.
+    Angle angularDistance = targetAngle - hinge.Angle;
 
-  // If we're within one degree of the target, completely stop the hinge moving.
-  if (angularDistance.Abs < Angle.FromDegrees(1))
-    hinge.Speed = AngularSpeed.Zero;
-  else
-    hinge.Speed = angularDistance / TimeSpan.FromSeconds(5);
+    // If we're within one degree of the target, completely stop the hinge moving.
+    if (angularDistance.Abs < Angle.FromDegrees(1))
+      hinge.Speed = AngularSpeed.Zero;
+    else
+      hinge.Speed = angularDistance / TimeSpan.FromSeconds(5);
 }
 }}}
 
