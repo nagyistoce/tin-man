@@ -1,6 +1,4 @@
 #labels Phase-Implementation,Phase-Design
-= Introduction =
-
 The most basic way of manipulating a hinge is to set its speed:
 
 {{{Body.HJ1.DesiredSpeed = AngularSpeed.FromDegreesPerSecond(15);}}}
