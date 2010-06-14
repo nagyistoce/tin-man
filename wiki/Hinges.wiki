@@ -1,5 +1,3 @@
-#summary Working with hinges
-
 = Introduction =
 
 RoboCup3D agents are modelled as articulated rigid bodies and can be thought of as limbs connected via hinges.  In order to move the limbs, your agent software controls the hinge angles.
