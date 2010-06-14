@@ -16,67 +16,36 @@ You don't need very much code to get started.  Here's about the minimum you can 
 {{{
 using TinMan;
 
-class SampleAgent : AgentBase<NaoBody>
+class MinimalAgent : AgentBase<NaoBody>
 {
-    public SampleAgent()
+    public MinimalAgent()
       : base(new NaoBody()) {}
 
-    public void Step(ISimulationContext context, PerceptorState state)
+    public override void Think(ISimulationContext context, PerceptorState state)
     {
-      // TODO do cool stuff in here
+        // TODO kick goal
     }
 
     static void Main()
     {
-      new Client().Run(new SampleAgent());
+        // This call blocks while your agent runs
+        new AgentHost().Run(new SampleAgent());
     }
 }
 }}}
 
-Those few lines of code will cause a Nao robot to materialise on your soccer field, practically begging you to code some life into it.
+Those few lines of code will cause a Nao robot to materialise on your soccer field, arms outstretched like a zombie, practically begging you to code some life into it.
 
 To actually move the robot, you could do something like this:
 
 {{{
-public void Step(ISimulationContext context, PerceptorState state)
+public override void Think(ISimulationContext context, PerceptorState state)
 {
-    var speed = AngularSpeed.FromDegreesPerSecond(200);
-    bool isIncreasing = (state.SimulationTime.Seconds%2==0);
-
-    // Set the neck hinge speed
-    _body.HJ1.Speed = isIncreasing ? speed : -speed;
+    // Rotate head 90 degrees to left
+    Body.HJ1.MoveToWithGain(Angle.FromDegrees(-90), 1);
 }
 }}}
 
-That code moves `HJ1` (the neck) back and forth at 200 degrees/sec, alternating every second of the simulation.  This `Step` method will be called every 20 milliseconds of simulated time (which may be slower or faster than real time).  Nao will stand there shaking his head, indefinitely.  Of course, while he's doing this his camera is reading the location of landmarks on the field, the ball and other players, all of which are being provided to this method as properties of the `PerceptorState` passed into this `Step` method.
+Note that the `AgentHost` will call `Think` for every cycle of the simulation.  In the above example `MoveToWithGain` would be called repeatedly, but this is unnecessary.  Calling `MoveToWithGain` will move the hinge to the specified position and hold it there, adjusting the hinge gradually over several cycles.
 
-Sometimes you need to move part of the body to an exact angle.  As only angular speeds may be sent to the hinge motor, we need a way of controlling the motion of the hinge with a negative feedback loop.
-
-{{{
-public void Step(ISimulationContext context, PerceptorState state)
-{
-    // Alternate between +/- 45 degrees, switching every two seconds
-    bool isIncreasing = state.SimulationTime.Seconds%4 >= 2;
-    var targetAngle = Angle.FromDegrees(isIncreasing ? 45 : -45);
-
-    // Move Nao's left arm, at the first joint
-    MoveToAngle(_body.LAJ1, targetAngle);
-}
-
-private static void MoveToAngle(Hinge hinge, Angle targetAngle)
-{
-    // The speed we set is a factor of the distance.  As we approach the
-    // target angle, the distance decreases and so does the angular speed.
-    Angle angularDistance = targetAngle - hinge.Angle;
-
-    // If we're within one degree of the target, completely stop the hinge moving.
-    if (angularDistance.Abs < Angle.FromDegrees(1))
-      hinge.Speed = AngularSpeed.Zero;
-    else
-      hinge.Speed = angularDistance / TimeSpan.FromSeconds(5);
-}
-}}}
-
-Note that we must set a value of zero for the hinge's speed in order for the hinge to stop moving.  Each hinge maintains the same speed value across multiple simulation cycles unless it is changed.
-
-There is no single approach for moving hinges to a particular angle.  You may want to use several approaches within the one agent for different scenarios, needing precision in one case and power in another.
+For more information about moving your agent's body, read [HingeControl Hinge Control].
