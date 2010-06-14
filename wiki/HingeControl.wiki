@@ -1,0 +1,56 @@
+#labels Phase-Implementation,Phase-Design
+= Introduction =
+
+The most basic way of manipulating a hinge is to set its speed:
+
+{{{Body.HJ1.DesiredSpeed = AngularSpeed.FromDegreesPerSecond(15);}}}
+
+However, in practice this rarely turns out to address your needs.  Usually you want to attain a specific angle.  At the lowest level, a desired speed is sent to the simulation server, so it is up to your agent to determine what series of speeds to request of the hinge in order to achieve that angle.
+
+More detail to come shortly.
+
+<wiki:comment>
+{{{
+public void Think(ISimulationContext context, PerceptorState state)
+{
+    var speed = AngularSpeed.FromDegreesPerSecond(200);
+    bool isIncreasing = (state.SimulationTime.Seconds%2==0);
+
+    // Set the neck hinge speed
+    Body.HJ1.Speed = isIncreasing ? speed : -speed;
+}
+}}}
+
+That code moves `HJ1` (the neck) back and forth at 200 degrees/sec, alternating every second of the simulation.  This `Step` method will be called every 20 milliseconds of simulated time (which may be slower or faster than real time).  Nao will stand there shaking his head, indefinitely.  Of course, while he's doing this his camera is reading the location of landmarks on the field, the ball and other players, all of which are being provided to this method as properties of the `PerceptorState` passed into this `Step` method.
+
+Sometimes you need to move part of the body to an exact angle.  As only angular speeds may be sent to the hinge motor, we need a way of controlling the motion of the hinge with a negative feedback loop.
+
+{{{
+public void Think(ISimulationContext context, PerceptorState state)
+{
+    // Alternate between +/- 45 degrees, switching every two seconds
+    bool isIncreasing = state.SimulationTime.Seconds%4 >= 2;
+    var targetAngle = Angle.FromDegrees(isIncreasing ? 45 : -45);
+
+    // Move Nao's left arm, at the first joint
+    MoveToAngle(_body.LAJ1, targetAngle);
+}
+
+private static void MoveToAngle(Hinge hinge, Angle targetAngle)
+{
+    // The speed we set is a factor of the distance.  As we approach the
+    // target angle, the distance decreases and so does the angular speed.
+    Angle angularDistance = targetAngle - hinge.Angle;
+
+    // If we're within one degree of the target, completely stop the hinge moving.
+    if (angularDistance.Abs < Angle.FromDegrees(1))
+      hinge.Speed = AngularSpeed.Zero;
+    else
+      hinge.Speed = angularDistance / TimeSpan.FromSeconds(5);
+}
+}}}
+
+Note that we must set a value of zero for the hinge's speed in order for the hinge to stop moving.  Each hinge maintains the same speed value across multiple simulation cycles unless it is changed.
+
+There is no single approach for moving hinges to a particular angle.  You may want to use several approaches within the one agent for different scenarios, needing precision in one case and power in another.
+</wiki:comment>
