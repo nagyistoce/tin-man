@@ -31,6 +31,10 @@ If you like brevity, this is equivalent:
     var host = new AgentHost { HostName = "dorothy" }.Run(new WizardAgent());
 }}}
 
+==How to I do XYZ with a hinge?==
+
+Read the page devoted to [Hinges].  If it doesn't answer your question, please send me an email.
+
 ==Can I implement my own agent body model?==
 
 Yes, you can.  You would need to create the appropriate Ruby Scene Graph (RSG) files on the server, and an implementation of `IBody` for !TinMan.
