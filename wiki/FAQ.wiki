@@ -37,6 +37,6 @@ Yes, you can.  You would need to create the appropriate Ruby Scene Graph (RSG) f
 
 ==!TinMan is logging to the console.  How can I redirect its log messages to my logging framework?==
 
-Logging actions may be redirected via static properties on the `TinManLog` class.
+Logging actions may be redirected via static properties on the `TinManLog` class.  For further details, see `LoggingAgent.cs` in the source code.
 
-For further details, see `LoggingAgent.cs` in the source code.
+If you don't have a logging framework of your own, you could use !TinMan's.
