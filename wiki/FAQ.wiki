@@ -1,0 +1,42 @@
+#summary Finally, Answered Queries.
+#labels Phase-Implementation,Featured
+
+==My team name is appearing as !TinManBots.  How can I change it?==
+
+`AgentHost` uses `TinManBots` as the default team name.  You can specify your own name like so:
+{{{
+    var host = new AgentHost();
+    host.TeamName = "WizardsOfOz";
+    host.Run(new WizardAgent());
+}}}
+
+If you like brevity, this is equivalent:
+
+{{{
+    var host = new AgentHost { TeamName = "WizardsOfOz" }.Run(new WizardAgent());
+}}}
+
+==How do I connect to a remote server?==
+
+By default, `AgentHost` connects to localhost.  You can specify an alternative host name like so:
+{{{
+    var host = new AgentHost();
+    host.HostName = "dorothy";
+    host.Run(new WizardAgent());
+}}}
+
+If you like brevity, this is equivalent:
+
+{{{
+    var host = new AgentHost { HostName = "dorothy" }.Run(new WizardAgent());
+}}}
+
+==Can I implement my own agent body model?==
+
+Yes, you can.  You would need to create the appropriate Ruby Scene Graph (RSG) files on the server, and an implementation of `IBody` for !TinMan.
+
+==!TinMan is logging to the console.  How can I redirect its log messages to my logging framework?==
+
+Logging actions may be redirected via static properties on the `TinManLog` class.
+
+For further details, see `LoggingAgent.cs` in the source code.
