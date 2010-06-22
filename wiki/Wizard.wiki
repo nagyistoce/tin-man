@@ -39,8 +39,8 @@ wizard.HostName = "dorothy";
 
 // Hook up events that fire whenever the wizard observes movement.
 // Note that these values are exact, unlike those observed by agents.
-wizard.BallTransformUpdated  += (time,transform) => Console.WriteLine("Ball position at {0}: {1}", time, transform.GetTranslation());
-wizard.AgentTransformUpdated += (time,transform) => Console.WriteLine("Agent position at {0}: {1}", time, transform.GetTranslation());
+wizard.BallTransformUpdated  += (gameTime,transform) => Console.WriteLine("Ball position: {0}", transform.GetTranslation());
+wizard.AgentTransformUpdated += (gameTime,transform) => Console.WriteLine("Agent position: {0}", transform.GetTranslation());
 
 // 'Run' creates a message processing loop on the calling thread.
 // For this sample, create a dedicated thread.
@@ -53,6 +53,8 @@ wizard.SetAgentPosition(1, FieldSide.Left, new Vector3(-FieldGeometry.FieldXLeng
 
 // Simulate an attack on the goal that the agent's defending
 wizard.SetBallPositionAndVelocity(new Vector3(-5, 1, 1.5), new Vector3(-1, -0.1, 0.1));
+
+// There are quite a few other tricks up the Wizard's sleeve.  Check the API.
 
 // Stop the message processing loop.  The thread we created above will exit.
 wizard.Stop();
