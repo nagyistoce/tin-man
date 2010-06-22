@@ -37,6 +37,11 @@ The class is well documented and fairly straightforward.  You can [https://code.
 var wizard = new Wizard();
 wizard.HostName = "dorothy";
 
+// Hook up events that fire whenever the wizard observes movement.
+// Note that these values are exact, unlike those observed by agents.
+wizard.BallTransformUpdated  += (time,transform) => Console.WriteLine("Ball position at {0}: {1}", time, transform.GetTranslation());
+wizard.AgentTransformUpdated += (time,transform) => Console.WriteLine("Agent position at {0}: {1}", time, transform.GetTranslation());
+
 // 'Run' creates a message processing loop on the calling thread.
 // For this sample, create a dedicated thread.
 new Thread(() => wizard.Run()).Start();
