@@ -1,0 +1,50 @@
+#summary Trainer API for machine learning
+
+= Introduction =
+
+The soccer server _rcssserver3d_ exposes two TCP ports for different purposes.
+
+ # The _Agent_ port (3100) through which agents are controlled.  `AgentHost` connects to and interacts with this port.
+ # The _Monitor_ port (3200) through which games may be manipulated in various godly ways.  `Wizard` connects to and interacts with this port.
+
+The default monitor _rcssmonitor3d_ gets enough information via the monitor port to display a 3D view of the field, ball, agents and environment.  The server also receives various commands from monitors.
+
+Using the `Wizard` class, your code can send these commands too.
+
+= Example =
+
+A common reason to use the `Wizard` is to perform *machine learning* of some game task.  Lets say you want to use some kind of [http://en.wikipedia.org/wiki/Evolutionary_computation evolutionary computation] or [http://en.wikipedia.org/wiki/Reinforcement_learning reinforcement learning] to *kick the ball* as far as possible.
+
+For this, you need to run your test many times.  Firstly, you *set up* your scenario:
+
+ * Position the agent exactly
+ * Position the ball in front of the agent, exactly
+
+Then run your test.
+
+Finally you need to *measure* performance.
+
+ * Where is the ball?
+ * Did your agent fall over?
+
+Rinse and repeat.
+
+= Using the `Wizard` class =
+
+The class is well documented and fairly straightforward.  You can [https://code.google.com/p/tin-man/source/browse/trunk/TinMan/Wizard.cs read the source code] online too.
+
+{{{
+var wizard = new Wizard();
+wizard.HostName = "dorothy";
+wizard.Connect();
+
+// Position the left team's player with uniform number 1 in front of their goal
+wizard.SetAgentPosition(1, FieldSide.Left, new Vector3(-FieldGeometry.FieldXLength/2, 0, 0));
+
+// Simulate an attack on the goal that the agent's defending
+wizard.SetBallPositionAndVelocity(new Vector3(-5, 1, 1.5), new Vector3(-1, -0.1, 0.1));
+
+wizard.Disconnect();
+}}}
+
+Note that connecting the Wizard can take a few seconds, so if repeated use is anticipated, keep the object alive and reuse it.
