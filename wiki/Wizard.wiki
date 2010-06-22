@@ -36,7 +36,12 @@ The class is well documented and fairly straightforward.  You can [https://code.
 {{{
 var wizard = new Wizard();
 wizard.HostName = "dorothy";
-wizard.Connect();
+
+// 'Run' creates a message processing loop on the calling thread.
+// For this sample, create a dedicated thread.
+new Thread(() => wizard.Run()).Start();
+
+// ...wait long enough for connection to occur...
 
 // Position the left team's player with uniform number 1 in front of their goal
 wizard.SetAgentPosition(1, FieldSide.Left, new Vector3(-FieldGeometry.FieldXLength/2, 0, 0));
@@ -44,7 +49,8 @@ wizard.SetAgentPosition(1, FieldSide.Left, new Vector3(-FieldGeometry.FieldXLeng
 // Simulate an attack on the goal that the agent's defending
 wizard.SetBallPositionAndVelocity(new Vector3(-5, 1, 1.5), new Vector3(-1, -0.1, 0.1));
 
-wizard.Disconnect();
+// Stop the message processing loop.  The thread we created above will exit.
+wizard.Stop();
 }}}
 
 Note that connecting the Wizard can take a few seconds, so if repeated use is anticipated, keep the object alive and reuse it.
