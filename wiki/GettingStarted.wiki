@@ -48,4 +48,4 @@ public override void Think(ISimulationContext context, PerceptorState state)
 
 Note that the `AgentHost` will call `Think` for every cycle of the simulation.  In the above example `MoveToWithGain` would be called repeatedly, but this is unnecessary.  Calling `MoveToWithGain` will move the hinge to the specified position and hold it there, adjusting the hinge gradually over several cycles.
 
-For more information about moving your agent's body, read [HingeControl Hinge Control].
+For more information about moving your agent's body, read [Hinges].
