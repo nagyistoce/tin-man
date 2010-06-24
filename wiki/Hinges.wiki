@@ -1,3 +1,5 @@
+#summary Giving your agent moves
+
 = Introduction =
 
 RoboCup3D agents are modelled as articulated rigid bodies and can be thought of as limbs connected via hinges.  In order to move the limbs, your agent software controls the hinge angles.
@@ -59,7 +61,7 @@ public override void Think(ISimulationContext context, PerceptorState state)
             int angle = (c - '0') * 10;
             
             // Move the left shoulder to that angle
-            Body.LAJ1.MoveToWithGain(angle, 1);
+            Body.LAJ1.MoveToWithGain(Angle.FromDegrees(angle), 1);
         }
     }
 }
@@ -85,7 +87,7 @@ If you find that `MoveToWithGain` doesn't suit your every need then the good new
 if (c=='?')
 {
     var random = new Random();
-    Body.LAJ1.SetControlFunction((hinge, context) => {
+    Body.LAJ1.SetControlFunction((hinge, ctx) => {
         return AngularSpeed.FromDegreesPerSecond(random.Next(100) - 50);
     });
 }
