@@ -45,6 +45,9 @@ Logging actions may be redirected via static properties on the `TinManLog` class
 
 If you don't have a logging framework of your own, you could use !TinMan's.
 
-==How do I access the current simulation time?==
+==How do I access the current game and simulation times?==
 
-Your implementation of {{{IAgent.Think}}} is passed an instance of {{{PerceptorState}}} which has a {{{SimulationTime}}} property of type {{{DateTime}}}.
+Your implementation of {{{IAgent.Think}}} is passed an instance of {{{PerceptorState}}} which has two {{{TimeSpan}}} properties:
+
+  * {{{SimulationTime}}} is the time since the simulation started.  This value is always increase between simulation cycles.  It will never decrease or remain the same between cycles.  Use this value when calculating the motion of your agent.
+  * {{{GameTime}}} is the elapsed time within the game period.  It will remain at zero until play commences (kick off) and will stop again at the end of the first half.  When the second half commences, it will revert to zero.  Use this value when calculating your game play strategy.
