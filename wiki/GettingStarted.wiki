@@ -29,7 +29,7 @@ class MinimalAgent : AgentBase<NaoBody>
     static void Main()
     {
         // This call blocks while your agent runs
-        new AgentHost().Run(new SampleAgent());
+        new AgentHost().Run(new MinimalAgent());
     }
 }
 }}}
