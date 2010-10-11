@@ -142,13 +142,11 @@ In order to run the agent we have created here, you need some code like this:
 {{{
 public static void Main()
 {
-    using (var host = new AgentHost())
-    {
-        host.Run(new HelloWorldAgent());
+    var host = new AgentHost();
+    host.Run(new HelloWorldAgent());
 
-        Console.WriteLine("HelloWorldAgent running.  Press any key to exit.");
-        Console.ReadKey(true);
-    }
+    Console.WriteLine("HelloWorldAgent running.  Press any key to exit.");
+    Console.ReadKey(true);
 }
 }}}
 
