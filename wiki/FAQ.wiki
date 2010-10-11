@@ -62,4 +62,4 @@ If you get the error...
 
  {{{Error CS1061: Type 'TinMan.Hinge' does not contain a definition for 'MoveToWithGain' and no extension method 'MoveToWithGain' of type 'TinMan.Hinge' could be found (are you missing a using directive or an assembly reference?)}}}
 
-...then make sure you have a reference to {{{System.Core}}} in your project.
+...then make sure you have a reference to {{{System.Core.dll}}} in your project.
