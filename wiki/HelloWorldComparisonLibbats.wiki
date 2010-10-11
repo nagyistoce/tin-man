@@ -62,7 +62,7 @@ Firstly, let's convert to C# using !TinMan in the most direct fashion possible. 
 {{{
 class HelloWorldAgent : AgentBase<NaoBody>
 {
-    public HelloWorldAgent(NaoBody body) : base(body)
+    public HelloWorldAgent() : base(new NaoBody())
     {}
 
     /// <param name="state">Represents the state of the world (play mode, time,
@@ -112,7 +112,7 @@ Using some of the features of the !TinMan library, this code can be condensed to
 {{{
 class HelloWorldAgent : AgentBase<NaoBody>
 {
-    public HelloWorldAgent(NaoBody body) : base(body)
+    public HelloWorldAgent() : base(new NaoBody())
     {}
 
     /// <param name="state">Represents the state of the world (play mode, time, players/opponents/ball positions, etc) and the state of the agent (joint angles, etc).</param>
@@ -133,6 +133,21 @@ class HelloWorldAgent : AgentBase<NaoBody>
         Body.LAJ2.MoveToWithGain(laj2Target, gain);
         Body.RAJ1.MoveToWithGain(raj1Target, gain);
         Body.RAJ2.MoveToWithGain(raj2Target, gain);
+    }
+}
+}}}
+
+In order to run the agent we have created here, you need some code like this:
+
+{{{
+public static void Main()
+{
+    using (var host = new AgentHost())
+    {
+        host.Run(new HelloWorldAgent());
+
+        Console.WriteLine("HelloWorldAgent running.  Press any key to exit.");
+        Console.ReadKey(true);
     }
 }
 }}}
