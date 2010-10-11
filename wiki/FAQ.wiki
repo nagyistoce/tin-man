@@ -39,6 +39,10 @@ Read the page devoted to [Hinges].  If it doesn't answer your question, please s
 
 Yes, you can.  You would need to create the appropriate Ruby Scene Graph (RSG) files on the server, and an implementation of `IBody` for !TinMan.
 
+==Will this run with Mono on Linux?==
+
+Yes.  The released binary works fine under Mono.  It has been tested on Ubuntu 10.04 using MonoDevelop and Mono 2.4.4.
+
 ==!TinMan is logging to the console.  How can I redirect its log messages to my logging framework?==
 
 Logging actions may be redirected via static properties on the `TinManLog` class.  For further details, see `LoggingAgent.cs` in the source code.
@@ -51,3 +55,11 @@ Your implementation of {{{IAgent.Think}}} is passed an instance of {{{PerceptorS
 
   * {{{SimulationTime}}} is the time since the simulation started.  This value is always increase between simulation cycles.  It will never decrease or remain the same between cycles.  Use this value when calculating the motion of your agent.
   * {{{GameTime}}} is the elapsed time within the game period.  It will remain at zero until play commences (kick off) and will stop again at the end of the first half.  When the second half commences, it will revert to zero.  Use this value when calculating your game play strategy.
+
+==Help! It says it can't find {{{MoveToWithGain}}}.==
+
+If you get the error...
+
+ {{{Error CS1061: Type 'TinMan.Hinge' does not contain a definition for 'MoveToWithGain' and no extension method 'MoveToWithGain' of type 'TinMan.Hinge' could be found (are you missing a using directive or an assembly reference?)}}}
+
+...then make sure you have a reference to {{System.Core}} in your project.
