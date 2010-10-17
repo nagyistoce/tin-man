@@ -144,9 +144,6 @@ public static void Main()
 {
     var host = new AgentHost();
     host.Run(new HelloWorldAgent());
-
-    Console.WriteLine("HelloWorldAgent running.  Press any key to exit.");
-    Console.ReadKey(true);
 }
 }}}
 
