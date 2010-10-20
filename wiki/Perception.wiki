@@ -1,0 +1,132 @@
+#summary Sensing your agent's environment
+
+=Introduction=
+
+Your agent is fitted with several sensors known as _perceptors_ in !RoboCup 3D parlance because they _perceive_ things.
+
+These perceptors report their output to the agent's brain (your `think` method) via an instance of the `PerceptorState` class:
+
+{{{
+  public override void Think(ISimulationContext context, PerceptorState state)
+  {
+      // 'state' holds information from perceptors
+      Console.Out.WriteLine("The simulation has been running for " + state.SimulationTime);
+  }
+}}}
+
+=Reference=
+
+Here is the full list of data available via the [http://code.google.com/p/tin-man/source/browse/trunk/TinMan/PerceptorState/PerceptorState.cs PerceptorState] class:
+
+||**Property**||**Type**||**Description**||
+||`SimulationTime`||`TimeSpan`||Gets the simulation time at which this state applies.  Simulation time is distinct from `GameTime` in that it is always increasing, even when the game's `PlayMode` means a game is not in progress.  The majority of agent hinge movement should be timed via this value.||
+||`GameTime`||`TimeSpan`||Gets the length of time into the current game period.  If the `PlayMode` means that a game period is not currently in progress, then this value will be static. Note also that this value can jump backwards after the first game period.||
+||`PlayMode`||`PlayMode` (enum)||Gets the current state of the soccer game.  Values may be one of: `Unknown`, `BeforeKickOff`, `KickOffLeft`, `KickOffRight`, `PlayOn`, `KickInLeft`, `KickInRight`, `CornerKickLeft`, `CornerKickRight`, `GoalKickLeft`, `GoalKickRIght`, `OffsideLeft`, `OffsideRight`, `GameOver`, `GoalLeft`, `GoalRight`, `FreeKickLeft`, `FreeKickRight`, `None`||
+||`TeamSide`||`FieldSide` (enum)||Gets the side of the field upon which the agent's team is currently playing.||
+||`UniformNumber`||`int?` (nullable)||Gets the uniform number assigned to this agent.  If no number has been assigned yet, this value may be `null`.||
+||`GyroStates`||`IEnumerable<GyroState>`||||
+||`HingeStates`||`IEnumerable<HingeState>`||||
+||`UniversalJointStates`||`IEnumerable<UniversalJointState>`||||
+||`TouchStates`||`IEnumerable<TouchState>`||||
+||`ForceStates`||`IEnumerable<ForceState>`||||
+||`AccelerometerStates`||`IEnumerable<AccelerometerState>`||||
+||`LandmarkPositions`||`IEnumerable<LandmarkPosition>`||||
+||`BallPosition`||`Polar?` (nullable)||||
+||`TeamMatePositions`||`IEnumerable<PlayerPosition>`||||
+||`OppositionPositions`||`IEnumerable<PlayerPosition>`||||
+||`AgentBattery`||`double?` (nullable)||||
+||`AgentTemperature`||`double?` (nullable)||||
+||`HeardMessages`||`IEnumerable<HeardMessage>`||||
+
+=Tips=
+
+Some points to note when dealing with these perceptor values:
+
+ * Certain values will always be `null` when using `NaoBody` (such as `UniversalJointStates`, and possibly `TouchStates`, `AgentBattery` and `AgentTemperature`.)
+ * Some perceptors do not report their value every simulation cycle (the vision perceptor is a good example).  Make sure your design caters for this.
+ * You can call `ToString()` on the `PerceptorState` object to get a formatted string of all percepts contained within the state snapshot.  This can be useful for debugging.
+
+=Examples=
+
+==Seeing==
+
+Your agent is fitted with a camera in its head.  When any of the following are within its field of view, you will be notified:
+
+ * The ball
+ * The bottoms of the corner flags
+ * The top corners of both goals
+ * Team mates and opposition players, and the relative arrangement of their limbs
+
+Let's assume you have a localiser service that determines your agent's position and orientation on the field.  It has an interface like this:
+
+{{{
+  public interface ILocalizer
+  {
+      /// <summary>
+      /// Provides the localizer with updated information about the agent's position.
+      /// </summary>
+      /// <param name="observedPositions">The set of observed landmark positions.</param>
+      /// <param name="simulationTime">The simulation time at which the observations were recorded.</param>
+      void Update(IEnumerable<LandmarkPosition> observedPositions, TimeSpan simulationTime);
+
+      /// <summary>
+      /// Gets whether the localizer has determined the agent's position and orientation.
+      /// </summary>
+      bool IsValueAvailable { get; }
+
+      /// <summary>
+      /// Gets the agent's current position, relative to the center of the field.
+      /// </summary>
+      Vector3 CurrentPosition { get; }
+
+      /// <summary>
+      /// Gets the agent's current orientation relative to the world coordinate system.
+      /// </summary>
+      Vector3 CurrentOrientation { get; }
+  }
+}}}
+
+In your agent's `Think` method, you would do something like this:
+
+{{{
+  public override void Think(ISimulationContext context, PerceptorState state)
+  {
+      _localizer.Update(state.LandmarkPositions, state.SimulationTime);
+
+      if (_localizer.IsValueAvailable)
+      {
+          Console.Out.WriteLine("Agent is at {0} with orientation {1}",
+                                _localizer.CurrentPosition, _localizer.CurrentOrientation);
+      }
+  }
+}}}
+
+==Hearing==
+
+Your agent can hear messages sent from its team-mates, opposition and even from itself.
+
+{{{
+  public override void Think(ISimulationContext context, PerceptorState state)
+  {
+      foreach (var message in state.HeardMessages)
+      {
+          if (!message.IsFromSelf)
+          {
+              Console.Out.WriteLine("Heard message '{0}' from direction {1} at {2}",
+                                    message.Text, message.RelativeDirection, message.HeardAtTime);
+          }
+      }
+  }
+}}}
+
+Messages are limited in length.  The distance they can travel and the rate at which they can be transmitted is also limited by the simulation server.
+
+Send a message using the context:
+
+{{{
+
+  public override void Think(ISimulationContext context, PerceptorState state)
+  {
+      context.Say("HelloWorld");
+  }
+}}}
