@@ -14,38 +14,6 @@ These perceptors report their output to the agent's brain (your `think` method) 
   }
 }}}
 
-=Reference=
-
-Here is the full list of data available via the [http://code.google.com/p/tin-man/source/browse/trunk/TinMan/PerceptorState/PerceptorState.cs PerceptorState] class:
-
-||**Property**||**Type**||**Description**||
-||`SimulationTime`||`TimeSpan`||Gets the simulation time at which this state applies.  Simulation time is distinct from `GameTime` in that it is always increasing, even when the game's `PlayMode` means a game is not in progress.  The majority of agent hinge movement should be timed via this value.||
-||`GameTime`||`TimeSpan`||Gets the length of time into the current game period.  If the `PlayMode` means that a game period is not currently in progress, then this value will be static. Note also that this value can jump backwards after the first game period.||
-||`PlayMode`||`PlayMode` (enum)||Gets the current state of the soccer game.  Values may be one of: `Unknown`, `BeforeKickOff`, `KickOffLeft`, `KickOffRight`, `PlayOn`, `KickInLeft`, `KickInRight`, `CornerKickLeft`, `CornerKickRight`, `GoalKickLeft`, `GoalKickRIght`, `OffsideLeft`, `OffsideRight`, `GameOver`, `GoalLeft`, `GoalRight`, `FreeKickLeft`, `FreeKickRight`, `None`||
-||`TeamSide`||`FieldSide` (enum)||Gets the side of the field upon which the agent's team is currently playing.||
-||`UniformNumber`||`int?` (nullable)||Gets the uniform number assigned to this agent.  If no number has been assigned yet, this value may be `null`.||
-||`GyroStates`||`IEnumerable<GyroState>`||||
-||`HingeStates`||`IEnumerable<HingeState>`||||
-||`UniversalJointStates`||`IEnumerable<UniversalJointState>`||||
-||`TouchStates`||`IEnumerable<TouchState>`||||
-||`ForceStates`||`IEnumerable<ForceState>`||||
-||`AccelerometerStates`||`IEnumerable<AccelerometerState>`||||
-||`LandmarkPositions`||`IEnumerable<LandmarkPosition>`||||
-||`BallPosition`||`Polar?` (nullable)||||
-||`TeamMatePositions`||`IEnumerable<PlayerPosition>`||||
-||`OppositionPositions`||`IEnumerable<PlayerPosition>`||||
-||`AgentBattery`||`double?` (nullable)||||
-||`AgentTemperature`||`double?` (nullable)||||
-||`HeardMessages`||`IEnumerable<HeardMessage>`||||
-
-=Tips=
-
-Some points to note when dealing with these perceptor values:
-
- * Certain values will always be `null` when using `NaoBody` (such as `UniversalJointStates`, and possibly `TouchStates`, `AgentBattery` and `AgentTemperature`.)
- * Some perceptors do not report their value every simulation cycle (the vision perceptor is a good example).  Make sure your design caters for this.
- * You can call `ToString()` on the `PerceptorState` object to get a formatted string of all percepts contained within the state snapshot.  This can be useful for debugging.
-
 =Examples=
 
 ==Seeing==
@@ -124,9 +92,55 @@ Messages are limited in length.  The distance they can travel and the rate at wh
 Send a message using the context:
 
 {{{
-
   public override void Think(ISimulationContext context, PerceptorState state)
   {
       context.Say("HelloWorld");
   }
 }}}
+
+==Feeling==
+
+Nao has a force resistance perceptor (FRPs) in either foot.  You can find out whether the foot is touching anything, and if so, the direction of the corresponding force and the location on the foot:
+
+{{{
+  public override void Think(ISimulationContext context, PerceptorState state)
+  {
+      ForceState rightFootForce = state.ForceStates.SingleOrDefault(f => f.Label == "rf");
+      ForceState leftFootForce = state.ForceStates.SingleOrDefault(f => f.Label == "lf");
+
+      Console.Out.WriteLine("Right foot force is {0} at position {1}", rightFootForce.ForceVector, rightFootForce.PointOnBody);
+      Console.Out.WriteLine("Left  foot force is {0} at position {1}", leftFootForce.ForceVector,  leftFootForce.PointOnBody);
+  }
+}}}
+
+=Reference=
+
+Here is the full list of data available via the [http://code.google.com/p/tin-man/source/browse/trunk/TinMan/PerceptorState/PerceptorState.cs PerceptorState] class:
+
+||**Property**||**Type**||**Description**||
+||`SimulationTime`||`TimeSpan`||Gets the simulation time at which this state applies.  Simulation time is distinct from `GameTime` in that it is always increasing, even when the game's `PlayMode` means a game is not in progress.  The majority of agent hinge movement should be timed via this value.||
+||`GameTime`||`TimeSpan`||Gets the length of time into the current game period.  If the `PlayMode` means that a game period is not currently in progress, then this value will be static. Note also that this value can jump backwards after the first game period.||
+||`PlayMode`||`PlayMode` (enum)||Gets the current state of the soccer game.  Values may be one of: `Unknown`, `BeforeKickOff`, `KickOffLeft`, `KickOffRight`, `PlayOn`, `KickInLeft`, `KickInRight`, `CornerKickLeft`, `CornerKickRight`, `GoalKickLeft`, `GoalKickRIght`, `OffsideLeft`, `OffsideRight`, `GameOver`, `GoalLeft`, `GoalRight`, `FreeKickLeft`, `FreeKickRight`, `None`||
+||`TeamSide`||`FieldSide` (enum)||Gets the side of the field upon which the agent's team is currently playing.||
+||`UniformNumber`||`int?` (nullable)||Gets the uniform number assigned to this agent.  If no number has been assigned yet, this value may be `null`.||
+||`GyroStates`||`IEnumerable<GyroState>`||Gets the state of any gyrometers present in the agent's body. ||
+||`HingeStates`||`IEnumerable<HingeState>`||Gets the state of any hinges present in the agent's body.  Note that these hinge values are automatically applied to your agent's body prior to `Think` being called.  You shouldn't need to read these values via this property.||
+||`UniversalJointStates`||`IEnumerable<UniversalJointState>`||Gets the state of any universal joins present in the agent's body.  Note that Nao doesn't use any universal joints.||
+||`TouchStates`||`IEnumerable<TouchState>`||Gets the state of any touch perceptors in the agent's body.  Note that Nao doesn't use touch perceptors.||
+||`ForceStates`||`IEnumerable<ForceState>`||Gets the state of any force resistance perceptors (FRP) in the agent's body.  Nao has one in either foot.||
+||`AccelerometerStates`||`IEnumerable<AccelerometerState>`||Gets the state of any accelerometers in the agent's body.||
+||`LandmarkPositions`||`IEnumerable<LandmarkPosition>`||Gets the relative positions of any landmarks (goals, flags) that can be seen by the agent's vision perceptor.||
+||`BallPosition`||`Polar?` (nullable)||Gets the relative position of the ball, provided it can be seen by that agent's vision perceptor.||
+||`TeamMatePositions`||`IEnumerable<PlayerPosition>`||Gets the relative position of any team mates that can be seen by that agent's vision perceptor.||
+||`OppositionPositions`||`IEnumerable<PlayerPosition>`||Gets the relative position of any team mates that can be seen by that agent's vision perceptor.||
+||`AgentBattery`||`double?` (nullable)||Gets the level remaining in the agent's battery.||
+||`AgentTemperature`||`double?` (nullable)||Gets the current temperature level of the agent.||
+||`HeardMessages`||`IEnumerable<HeardMessage>`||Gets any messages that were heard by the agent's audio perceptor.||
+
+=Tips=
+
+Some points to note when dealing with these perceptor values:
+
+ * Certain values will always be `null` when using `NaoBody` (such as `UniversalJointStates`, and possibly `TouchStates`, `AgentBattery` and `AgentTemperature`.)
+ * Some perceptors do not report their value every simulation cycle (the vision perceptor is a good example).  Make sure your design caters for this.
+ * You can call `ToString()` on the `PerceptorState` object to get a formatted string of all percepts contained within the state snapshot.  This can be useful for debugging.
