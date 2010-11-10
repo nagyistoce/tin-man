@@ -70,3 +70,5 @@ Congratulations, you're now ready to start coding your agent! Return to the [Get
 
  * *F5* compile and run your agent
  * *Shift + F5* stop your program
+
+_Many thanks to Osama Khan for his help in putting together this guide!_
