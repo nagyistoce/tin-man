@@ -3,11 +3,15 @@
 
 [http://code.google.com/p/tin-man/downloads/list Download] either the source code or the compiled `TinMan.dll` and reference it from your project.
 
-If you don't have a RoboCup3D server and monitor installed on your computer, check one of these pages:
+If you don't have a RoboCup3D server (`rcssserver3d.exe`) and monitor (`rcssmonitor3d.exe`) installed on your computer, check one of these pages:
 
  * [http://simspark.sourceforge.net/wiki/index.php/Installation_on_Windows Installation on Windows]
  * [http://simspark.sourceforge.net/wiki/index.php/Installation_on_Linux Installation on Linux]
  * [http://simspark.sourceforge.net/wiki/index.php/Installation_on_Mac_OS_X Installation on OSX]
+
+If you want to set up an IDE, then the following may be helpful:
+
+ * [IdeMonoDevelopOnUbuntu MonoDevelop setup on Ubuntu 10+]
 
 =Your First Agent=
 
@@ -48,4 +52,8 @@ public override void Think(ISimulationContext context, PerceptorState state)
 
 Note that the `AgentHost` will call `Think` for every cycle of the simulation.  In the above example `MoveToWithGain` would be called repeatedly, but this is unnecessary.  Calling `MoveToWithGain` will move the hinge to the specified position and hold it there, adjusting the hinge gradually over several cycles.
 
-For more information about moving your agent's body, read [Hinges].
+=Further Reading=
+
+ * [FAQ] has some good general tips
+ * [Hinges] provides details on moving your agent's body
+ * [Perception] explains how to sense your agent's environment
