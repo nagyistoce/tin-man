@@ -1,0 +1,17 @@
+#summary Information about the Nao agent
+
+= Introduction =
+
+The Nao robot is the current model for agents in the competitive RoboCup 3D Simulated Soccer league.
+
+= Anatomy = 
+
+The Nao agent has 22 degrees of freedom (DOF) via its 22 hinges.  Each hinge is referred to by its name in code.
+
+This diagram shows the assignment of hinge names across the agent's body.
+
+[http://drewnoakes.com/tin-man/tin-man-nao-joints.jpg]
+
+= Code =
+
+In !TinMan, the class [http://code.google.com/p/tin-man/source/browse/trunk/TinMan/NaoBody.cs NaoBody] represents this agent model and provides named properties for accessing the hinges.  This class also models restrictions upon each hinge's angular range.
