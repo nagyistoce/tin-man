@@ -8,7 +8,7 @@ The Nao robot is the current model for agents in the competitive RoboCup 3D Simu
 
 The Nao agent has 22 degrees of freedom (DOF) via its 22 hinges.  Each hinge is referred to by its name in code.
 
-This diagram shows the assignment of hinge names across the agent's body.
+This diagram shows the assignment of hinge names across the agent's body.  In the posture shown, all joints are at zero degrees.
 
 [http://drewnoakes.com/tin-man/tin-man-nao-joints.jpg]
 
