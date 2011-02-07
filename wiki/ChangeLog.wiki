@@ -1,0 +1,28 @@
+#summary A running history of what changed between releases
+
+= 0.4.1 =
+
+_Released 2011-02-07_
+
+  * Fixed a bug whereby setting {{{IAgent.IsAlive}}} to false wouldn't tear down the {{{AgentHost}}}.
+  * Fixed a potential runtime exception in {{{PerceptorState.ToString}}}.
+  * Added generic type parameter constraint that {{{TBody}}} in {{{Agent<TBody>}}} must be a class.
+  * Comparisons between floating point number now use comparison with epsilon.
+  * Standardising code formatting, and replacing leading tabs with whitespace.
+  * Completed API XML documentation.
+  * Small improvements to {{{AgentHost}}} for both performance and readability.
+  * Created {{{AgentHost.DefaultHostName}}} property.
+  * Removed unnecessary method from {{{Wizard}}}.
+  * Some documentation corrections for {{{Wizard}}}.
+  * Added comments to disable certain !ReSharper inspections.
+  * Fixed a presentation bug in {{{PlayerPosition.ToString()}}}.
+  * First release to include both Release and Debug builds.
+
+= 0.4 =
+
+_Released 2010-10-26_
+
+  * Added parser support for {{{(setSenseMyPos true)}}} option in {{{naoneckhead.rsg}}}.  Value appears in {{{PerceptorState.AgentPosition}}}.
+  * API documentation improvements.
+  * New {{{FieldGeometry}}} consts {{{BallRadiusMetres}}}, {{{BallMassKilograms}}}.
+  * Removed references to host {{{"yoda"}}} from sample code.
