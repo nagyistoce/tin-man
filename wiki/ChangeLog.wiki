@@ -1,6 +1,6 @@
 #summary A running history of what changed between releases
 
-= 0.4.1 =
+= 0.4.2 =
 
 _Released 2011-02-10_
 
