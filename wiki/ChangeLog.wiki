@@ -4,7 +4,7 @@
 
 _Released 2011-02-10_
 
-  * Moved {{TeamSide}} property from {{PerceptorState}} to {{ISimulationContext}}, fixing a bug where the property's value wasn't being set.  The server only sends this value at startup.
+  * Moved {{{TeamSide}}} property from {{{PerceptorState}}} to {{{ISimulationContext}}}, fixing a bug where the property's value wasn't being set.  The server only sends this value at startup.
   * Fixed bug whereby all observed players were reported as being opponents, even if they were actually team mates.
 
 Thanks to Saleha Raza for reporting these issues.
