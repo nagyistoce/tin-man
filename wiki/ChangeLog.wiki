@@ -1,4 +1,11 @@
 #summary A running history of what changed between releases
+#labels Featured
+
+= 0.4.3 =
+
+_Released 2011-02-12_
+
+  * Fixed a bug in the parser that surfaced in cultures where periods are used as thousand separators, not decimal separators.  This is an important fix for teams intending to run their agents in competitions hosted in foreign countries!
 
 = 0.4.2 =
 
