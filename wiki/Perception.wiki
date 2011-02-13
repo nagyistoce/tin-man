@@ -89,7 +89,7 @@ Your agent can hear messages sent from its team-mates, opposition and even from 
 
 Messages are limited in length.  The distance they can travel and the rate at which they can be transmitted is also limited by the simulation server.
 
-Send a message using the context:
+Send a message using the simulation context available via `IAgent.Context` :
 
 {{{
   public override void Think(PerceptorState state)
