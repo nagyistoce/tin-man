@@ -1,0 +1,73 @@
+#summary A powerful monitor for simulation visualisation
+
+= !RoboViz =
+
+!RoboViz is a project by Justin Stoecker in collaboration with the !RoboCup group at the University of Miami's Department of Computer Science.
+
+!RoboViz offers several features, as shown in this video:
+
+<wiki:video url="http://www.youtube.com/watch?v=RMJFWrV3GZg" width="800" height="480"/>
+
+The remainder of this article deals with !TinMan's support for the programmable drawing feature (seen from around 1:20 in the video.)
+
+You can read more about !RoboViz at [http://sites.google.com/site/umroboviz/ the project website].
+
+= Programmable Drawing =
+
+In order to draw on the visualisation, your agent must connect directly to the monitor and transmit commands.  In !TinMan, this is done via an object-oriented API.
+
+== A Simple Example - Displaying Localisation Calculation ==
+
+Let's implement an agent that draws a dot on the screen to show where it thinks it is.  !TinMan does not currently include a localiser implementation, so let's assume we have a simple localisation service available with the following interface:
+
+{{{
+public interface ILocaliser
+{
+    bool Update(PerceptorState state);
+    Vector3 GetPosition();
+}
+}}}
+
+And here is the code for our complete agent:
+
+{{{
+public sealed class LocalisationSimpleVisualisationAgent : AgentBase<NaoBody>
+{
+    private readonly ILocaliser _localiser;
+    private Dot _locationDot;
+
+    public LocalisationSimpleVisualisationAgent(ILocaliser localiser)
+        : base(new NaoBody())
+    {
+        _localiser = localiser;
+    }
+
+    public override void Initialise()
+    {
+        // Request that a RoboViz remote is created.
+        // It will be disposed of automatically when the agent exits.
+        var roboViz = CreateRoboVizRemote();
+
+        // Create a 5-pixel, blue dot to indicate the agent's calculated position, hidden initially.
+        // Keep a reference to this object so that we can manipulate it later.
+        _locationDot = new Dot { PixelSize = 5, Color = Color.Blue, IsVisible = false };
+
+        // Add it to the RoboViz remote using the group name 'localisation'.
+        // This name will be prefixed with the side and agent number automatically.
+        roboViz.Add(new ShapeSet("localisation") { _locationDot });
+    }
+
+    public override void Think(PerceptorState state)
+    {
+        // Provide the localiser with the latest state and see if it has a position for us.
+        if (_localiser.Update(state))
+        {
+            // Update the dot's position.  This will automatically be reflected in the RoboViz UI.
+            _locationDot.Position = _localiser.Position;
+
+            // Make sure it's visible now that we have a position.
+            _locationDot.IsVisible = true;
+        }
+    }
+}
+}}}
