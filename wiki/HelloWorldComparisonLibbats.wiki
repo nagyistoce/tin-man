@@ -68,7 +68,7 @@ class HelloWorldAgent : AgentBase<NaoBody>
     /// <param name="state">Represents the state of the world (play mode, time,
     /// players/opponents/ball positions, etc) and the state of the agent (joint
     /// angles, etc).</param>
-    public override void Think(ISimulationContext context, PerceptorState state)
+    public override void Think(PerceptorState state)
     {
         // Get the current time.
         double t = state.SimulationTime.TotalSeconds;
@@ -116,7 +116,7 @@ class HelloWorldAgent : AgentBase<NaoBody>
     {}
 
     /// <param name="state">Represents the state of the world (play mode, time, players/opponents/ball positions, etc) and the state of the agent (joint angles, etc).</param>
-    public override void Think(ISimulationContext context, PerceptorState state)
+    public override void Think(PerceptorState state)
     {
         double t = state.SimulationTime.TotalSeconds;
   
