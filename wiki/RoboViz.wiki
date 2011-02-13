@@ -115,6 +115,17 @@ Each `ShapeSet` has a path that corresponds to its position in the hierarchy.  E
 
 By default, an agent's team side (R or L) and uniform number (A1, A2...) are prefixed to the `ShapeSet`'s path.  This can be disabled via `RoboVizOptions.UseDefaultPrefix`.
 
+`ShapeSet` defines the following public members:
+
+{{{
+string Path { get; }
+void Add(Shape shape);
+void AddRange(IEnumerable<Shape> shapes);
+void Add(ShapeSet childSubSet);
+void Translate(Vector3 offset);
+void Remove(Shape shape);
+}}}
+
 == Shapes ==
 
 !RoboViz supports:
@@ -133,7 +144,7 @@ void Remove();
 void Translate(Vector3 offset);
 }}}
 
-=== Dot
+=== Dot ===
 
 A coloured point in 3D space.  Its size remains the same regardless of its distance from the camera, hence the size unit is pixels.  Note that `X`,`Y`,`Z` are equivalent to `Position`, so use whichever is more convenient at the time.
 
@@ -146,7 +157,7 @@ double Y { get; set; }
 double Z { get; set; }
 }}}
 
-=== Line
+=== Line ===
 
 A coloured point in 3D space.  Its size remains the same regardless of its distance from the camera, hence the size unit is pixels.  Note that `X`,`Y`,`Z` are equivalent to `Position`, so use whichever is more convenient at the time.
 
@@ -161,4 +172,43 @@ double Z1 { get; set; }
 double X2 { get; set; }
 double Y2 { get; set; }
 double Z2 { get; set; }
+}}}
+
+=== Polygon ===
+
+A borderless, filled polygon in 3D space formed from a list of vertices.
+
+{{{
+Color Color { get; set; }
+Vector3 this[int index] { get; set; }
+void Add(Vector3 vertex);
+void AddRange(IEnumerable<Vector3> vertices);
+void RemoveAt(int index);
+void InsertAt(int index, Vector3 vertex);
+void Clear();
+}}}
+
+=== Circle ===
+
+An unfilled 2D circle, constrained to the horizontal plane of the field.  Its line thickness remains the same regardless of its distance from the camera, hence the thickness unit is pixels.
+
+{{{
+Color Color { get; set; }
+double RadiusMetres { get; set; }
+double PixelThickness { get; set; }
+double CenterX { get; set; }
+double CenterY { get; set; }
+}}}
+
+=== Sphere ===
+
+A solid sphere in 3D space.  Note that `X`,`Y`,`Z` are equivalent to `Center`, so use whichever is more convenient at the time.
+
+{{{
+Color Color { get; set; }
+double RadiusMetres { get; set; }
+Vector3 Center { get; set; }
+double X { get; set; }
+double Y { get; set; }
+double Z { get; set; }
 }}}
