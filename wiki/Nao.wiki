@@ -2,7 +2,7 @@
 
 = Introduction =
 
-The Nao robot is the current model for agents in the competitive RoboCup 3D Simulated Soccer league.
+The Nao robot is the current model for agents in the competitive !RoboCup 3D Simulated Soccer league.
 
 = Anatomy = 
 
