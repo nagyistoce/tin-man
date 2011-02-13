@@ -47,7 +47,7 @@ It's important to note that your agent's hinges do not, by default, have any fee
 !TinMan comes with an example of such a control circuit via the method `MoveToWithGain(Angle,double)`.  You can use it like this:
 
 {{{
-public override void Think(ISimulationContext context, PerceptorState state)
+public override void Think(PerceptorState state)
 {
     // We only do some work if a key has been pressed, otherwise fall through
     if (Console.KeyAvailable)
