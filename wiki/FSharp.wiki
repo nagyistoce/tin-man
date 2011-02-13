@@ -12,10 +12,14 @@ open TinMan
 type GetSmartAgent() =
     let body = new NaoBody()
     let mutable isAlive = true
+    let mutable context = null
     interface IAgent with
         member this.Body = body :> IBody
+        member this.Context
+            with get() = context
+            and set(value) = context <- value
         member this.IsAlive = isAlive
-        member this.Think(c,s) =
+        member this.Think(state) =
             // TODO perform thoughtful things
             // Return unit as interface has void return type
             ()
@@ -35,14 +39,14 @@ Other ways of defining an agent type are:
 {{{
 type GetSmartAgent() =
     inherit AgentBase<NaoBody>(new NaoBody()) with
-        override this.Think(c,s) =
+        override this.Think(state) =
             // TODO perform thoughtful things
             ()
     
 let body = new NaoBody()
 let agent = {
     new AgentBase<NaoBody>(body) with
-        override this.Think(c,s) =
+        override this.Think(state) =
             // TODO perform thoughtful things
             ()
 }
