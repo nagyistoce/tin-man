@@ -1,10 +1,9 @@
 #summary A powerful monitor for simulation visualisation
+#labels Phase-Implementation
 
 = !RoboViz =
 
-!RoboViz is a project by Justin Stoecker in collaboration with the !RoboCup group at the University of Miami's Department of Computer Science.
-
-!RoboViz offers several features, as shown in this video:
+!RoboViz is a project by Justin Stoecker in collaboration with the !RoboCup group at the University of Miami's Department of Computer Science.  It offers several features, as shown in this video:
 
 <wiki:video url="http://www.youtube.com/watch?v=RMJFWrV3GZg" width="800" height="480"/>
 
@@ -71,3 +70,47 @@ public sealed class LocalisationSimpleVisualisationAgent : AgentBase<NaoBody>
     }
 }
 }}}
+
+== Key Concepts ==
+
+The key concepts here are:
+
+ # Request an `IRoboVizRemote` be created using `CreateRoboVizRemote`.
+ # Create a `ShapeSet` and add it to the remote.
+ # Create `Shape` object(s) and add them to the `ShapeSet`.
+ # Using stored references to the `Shape` object(s), manipulate their position, colour, geometry and visibility as the agent runs.
+
+== Creating an `IRoboVizRemote` ==
+
+To create a remote using the default options, issue the call as in the above example:
+
+{{{
+    var roboViz = CreateRoboVizRemote();
+}}}
+
+If custom options are required, use this alternative overload:
+
+{{{
+    // Specify one or more non-default options
+    var options = new RoboVizOptions
+                        {
+                            HostName = "somehost",
+                            Port = 12345,
+                            UseDefaultPrefix = false
+                        };
+    var roboViz = CreateRoboVizRemote(options);
+}}}
+
+== Shape Sets ==
+
+`ShapeSet` is a composite type, meaning that it may contain instances of child `ShapeSet` objects and can therefore resemble a tree structure.  A `ShapeSet` may also contain zero or more `Shape` objects.  This facility allows sub-tree filtering of `Shape` objects in the !RoboViz UI.
+
+Each `ShapeSet` has a path that corresponds to its position in the hierarchy.  Examples are:
+
+ * `R.A1.localisation.ball`
+ * `R.A1.localisation.robot.translation`
+ * `R.A1.localisation.robot.orientation`
+ * `R.A1.localisation.robot.uprightvector`
+ * `R.A1.planning.trajectory`
+
+By default, an agent's team side (R or L) and uniform number (A1, A2...) are prefixed to the `ShapeSet`'s path.  This can be disabled via `RoboVizOptions.UseDefaultPrefix`.
