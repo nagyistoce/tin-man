@@ -1,6 +1,17 @@
 #summary A running history of what changed between releases
 #labels Featured
 
+= 0.5.0 =
+
+_Released 2011-02-12_
+
+  * Added support for drawing various shapes in the [https://sites.google.com/site/umroboviz RoboViz] monitor while the agent is running, allowing visual insight into your agent's calculations and intent.
+ * Some very minor API changes that may cause compilation errors:
+   * The simulation context is now a property rather than an argument to {{{Think}}}.  
+   * {{{UniformNumber}}} has been moved from {{{PerceptorState}}} to {{{ISimulationContext}}} in the same way that {{{TeamSide}}} moved a few releases ago.
+ * Created additional {{{Initialise}}} and {{{Shutdown}}} methods that agents may optionally override to perform tasks at startup and exit.
+ * Added additional constants to {{{FieldGeometry}}}.
+
 = 0.4.3 =
 
 _Released 2011-02-12_
