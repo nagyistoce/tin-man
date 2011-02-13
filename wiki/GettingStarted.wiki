@@ -11,7 +11,7 @@ If you don't have a !RoboCup 3D server (`rcssserver3d.exe`) installed on your co
 
 You will need a monitor application to actually see what's taking place on the simulated soccer field.  You have a choice between:
 
- * RoboViz, which is a separate download and has advanced features.  !TinMan has special support for RoboViz too.
+ * RoboViz, which is a separate download and has advanced features.  !TinMan has special support for certain !RoboViz features.
  * `rcssmonitor3d`, which comes bundled with the !RoboCup 3D server.
 
 If you want to set up an IDE, then the following may be helpful:
