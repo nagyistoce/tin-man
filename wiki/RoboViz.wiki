@@ -114,3 +114,51 @@ Each `ShapeSet` has a path that corresponds to its position in the hierarchy.  E
  * `R.A1.planning.trajectory`
 
 By default, an agent's team side (R or L) and uniform number (A1, A2...) are prefixed to the `ShapeSet`'s path.  This can be disabled via `RoboVizOptions.UseDefaultPrefix`.
+
+== Shapes ==
+
+!RoboViz supports:
+
+ * Dot
+ * Line
+ * Polygon
+ * Circle
+ * Sphere
+
+Each of these has a class in the `TinMan.RoboViz`, and each of these classes derive from the abstract `Shape` class.  All shapes therefore inherit the following public members:
+
+{{{
+bool IsVisible { get; set; }
+void Remove();
+void Translate(Vector3 offset);
+}}}
+
+=== Dot
+
+A coloured point in 3D space.  Its size remains the same regardless of its distance from the camera, hence the size unit is pixels.  Note that `X`,`Y`,`Z` are equivalent to `Position`, so use whichever is more convenient at the time.
+
+{{{
+Color Color { get; set; }
+double PixelSize { get; set; }
+Vector3 Position { get; set; }
+double X { get; set; }
+double Y { get; set; }
+double Z { get; set; }
+}}}
+
+=== Line
+
+A coloured point in 3D space.  Its size remains the same regardless of its distance from the camera, hence the size unit is pixels.  Note that `X`,`Y`,`Z` are equivalent to `Position`, so use whichever is more convenient at the time.
+
+{{{
+Color Color { get; set; }
+double PixelThickness { get; set; }
+Vector3 End1 { get; set; }
+Vector3 End2 { get; set; }
+double X1 { get; set; }
+double Y1 { get; set; }
+double Z1 { get; set; }
+double X2 { get; set; }
+double Y2 { get; set; }
+double Z2 { get; set; }
+}}}
