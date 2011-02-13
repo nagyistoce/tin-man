@@ -3,6 +3,8 @@
 
 = !RoboViz =
 
+<wiki:toc max_depth="4" />
+
 !RoboViz is a project by Justin Stoecker in collaboration with the !RoboCup group at the University of Miami's Department of Computer Science.  It offers several features, as shown in this video:
 
 <wiki:video url="http://www.youtube.com/watch?v=RMJFWrV3GZg" width="800" height="480"/>
