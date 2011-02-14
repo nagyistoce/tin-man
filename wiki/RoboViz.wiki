@@ -161,7 +161,7 @@ double Z { get; set; }
 
 === Line ===
 
-A coloured point in 3D space.  Its size remains the same regardless of its distance from the camera, hence the size unit is pixels.  Note that `X`,`Y`,`Z` are equivalent to `Position`, so use whichever is more convenient at the time.
+A coloured point in 3D space.  Its size remains the same regardless of its distance from the camera, hence the size unit is pixels.  Note that `X1`,`Y1`,`Z1` are equivalent to `End1` (the same applies for `*2`), so use whichever is more convenient at the time.
 
 {{{
 Color Color { get; set; }
