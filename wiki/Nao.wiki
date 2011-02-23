@@ -10,7 +10,7 @@ The Nao agent has 22 degrees of freedom (DOF) via its 22 hinges.  Each hinge is 
 
 This diagram shows the assignment of hinge names across the agent's body.  In the posture shown, all joints are at zero degrees.
 
-[http://drewnoakes.com/tin-man/tin-man-nao-joints.jpg]
+[http://tin-man.googlecode.com/svn/trunk/Documentation/tin-man-nao-joints.jpg]
 
 = Code =
 
