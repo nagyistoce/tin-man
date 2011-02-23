@@ -10,18 +10,9 @@ module TinMan.Samples.FSharp
 open TinMan
 
 type GetSmartAgent() =
-    let body = new NaoBody()
-    let mutable isAlive = true
-    let mutable context = null
-    interface IAgent with
-        member this.Body = body :> IBody
-        member this.Context
-            with get() = context
-            and set(value) = context <- value
-        member this.IsAlive = isAlive
-        member this.Think(state) =
+    inherit AgentBase<NaoBody>(new NaoBody()) with
+        override this.Think(state) =
             // TODO perform thoughtful things
-            // Return unit as interface has void return type
             ()
 
 // Create and run an agent
@@ -33,21 +24,3 @@ host.Run(agent) |> ignore
 }}}
 
 F# sample code is included in the source code.
-
-Other ways of defining an agent type are:
-
-{{{
-type GetSmartAgent() =
-    inherit AgentBase<NaoBody>(new NaoBody()) with
-        override this.Think(state) =
-            // TODO perform thoughtful things
-            ()
-    
-let body = new NaoBody()
-let agent = {
-    new AgentBase<NaoBody>(body) with
-        override this.Think(state) =
-            // TODO perform thoughtful things
-            ()
-}
-}}}
