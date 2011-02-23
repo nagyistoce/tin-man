@@ -1,13 +1,19 @@
 #summary A running history of what changed between releases
 #labels Featured
 
+= 0.5.2 =
+
+_Released 2011-02-23_
+
+  * Added support for `FieldAnnotation`s and agent annotations, allowing textual labels to be drawn on the RoboViz field.
+
 = 0.5.1 =
 
 _Released 2011-02-13_
 
   * Additional documentation for new public members.
   * Made a few new members internal for safety.
-  * Fixed bug in F# sample agent (FunctionalAgent.fs).
+  * Fixed bug in F# sample agent (!FunctionalAgent.fs).
 
 = 0.5.0 =
 
