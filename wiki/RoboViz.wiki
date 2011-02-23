@@ -47,7 +47,7 @@ public sealed class LocalisationSimpleVisualisationAgent : AgentBase<NaoBody>
     {
         // Request that a RoboViz remote is created.
         // It will be disposed of automatically when the agent exits.
-        var roboViz = CreateRoboVizRemote();
+        var roboViz = new RoboVizRemote();
 
         // Create a 5-pixel, blue dot to indicate the agent's calculated position, hidden initially.
         // Keep a reference to this object so that we can manipulate it later.
@@ -77,17 +77,17 @@ public sealed class LocalisationSimpleVisualisationAgent : AgentBase<NaoBody>
 
 The key concepts here are:
 
- # Request an `IRoboVizRemote` be created using `CreateRoboVizRemote`.
+ # Create a `RoboVizRemote`.
  # Create a `ShapeSet` and add it to the remote.
  # Create `Shape` object(s) and add them to the `ShapeSet`.
  # Using stored references to the `Shape` object(s), manipulate their position, colour, geometry and visibility as the agent runs.
 
-== Creating an `IRoboVizRemote` ==
+== Creating a `RoboVizRemote` ==
 
 To create a remote using the default options, issue the call as in the above example:
 
 {{{
-    var roboViz = CreateRoboVizRemote();
+    var roboViz = new RoboVizRemote();
 }}}
 
 If custom options are required, use this alternative overload:
@@ -100,7 +100,7 @@ If custom options are required, use this alternative overload:
                             Port = 12345,
                             UseDefaultPrefix = false
                         };
-    var roboViz = CreateRoboVizRemote(options);
+    var roboViz = new RoboVizRemote(options);
 }}}
 
 == Shape Sets ==
@@ -214,3 +214,32 @@ double X { get; set; }
 double Y { get; set; }
 double Z { get; set; }
 }}}
+
+
+=== !FieldAnnotation ===
+
+A label of text pinned in 3D space.  Note that `X`,`Y`,`Z` are equivalent to `Center`, so use whichever is more convenient at the time.
+
+{{{
+Color Color { get; set; }
+Vector3 Center { get; set; }
+double X { get; set; }
+double Y { get; set; }
+double Z { get; set; }
+string Text { get; set; }
+}}}
+
+== Agent Annotation ==
+
+An agent may specify an annotation that floats above its body as it moves around the field.  This value is set directly upon `RoboVizRemote`.
+
+{{{
+public override void Initialise()
+{
+    var roboViz = new RoboVizRemote(this);
+    roboViz.AgentText = "Hello World";
+    roboViz.AgentTextColor = Color.Red;
+}
+}}}
+
+If you need to change this text during the agent's lifetime (perhaps to display its current 'mode' or some kind of decision), just keep a reference to your instance of `RoboVizRemote` and update the `AgentText` property as needed from within your `Think` method.
