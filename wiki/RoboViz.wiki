@@ -73,6 +73,14 @@ public sealed class LocalisationSimpleVisualisationAgent : AgentBase<NaoBody>
 }
 }}}
 
+== A Complex Example ==
+
+!RoboViz ships with a demo, `RVTester`.  This class has been ported to `TinMan` and is visible as [http://code.google.com/p/tin-man/source/browse/trunk/TinMan.Samples.CSharp/RoboVizDemoAgent.cs RoboVizDemoAgent.cs]:
+
+Here is a screenshot showing a variety of annotations drawn over the `RoboViz` field:
+
+<img src="http://tin-man.googlecode.com/svn/trunk/Documentation/robocup-with-roboviz-annotations.png"/>
+
 == Key Concepts ==
 
 The key concepts here are:
