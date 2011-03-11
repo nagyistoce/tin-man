@@ -1,6 +1,14 @@
 #summary A running history of what changed between releases
 #labels Featured
 
+= 0.5.3 =
+
+_Released 2011-03-11_
+
+  * Fixed bug in FieldAnnotation where changing the Text property wasn't updating the bytes sent in the message.
+  * Put short-circuit in RoboViz shape property setters where value is unchanged to avoid setting dirty flag in some cases (this could be applied more widely later.).
+  * Improved XML documentation for Wizard class.
+
 = 0.5.2 =
 
 _Released 2011-02-23_
