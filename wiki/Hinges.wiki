@@ -1,5 +1,7 @@
 #summary Giving your agent moves
 
+<wiki:toc max_depth="2" />
+
 = Introduction =
 
 RoboCup3D agents are modelled as articulated rigid bodies and can be thought of as limbs connected via hinges.  In order to move the limbs, your agent software controls the hinge angles.
@@ -42,7 +44,7 @@ The hinge remembers its speed across multiple simulation cycles.  If, during the
 
 It's important to note that your agent's hinges do not, by default, have any feedback loop built in.  Any control circuitry must be built explicitly into your agent.  This gives quite a bit of flexibility but can be complex.  !TinMan provides a simple solution that works most of the time, but allows you to add your own in cases where it is needed.
 
-== Built-in Control ==
+== Simple, Proportional Control ==
 
 !TinMan comes with an example of such a control circuit via the method `MoveToWithGain(Angle,double)`.  You can use it like this:
 
@@ -77,7 +79,11 @@ Internally, `MoveToWithGain` registers a *callback function* that operates as th
 
 Even after the hinge reaches its desired angle and motion has ceased, the hinge is still being controlled.  For example, say your agent is hit by the ball and topples over.  The impact with the ground will cause hinges to bend.  The control function will detect this deviation from the target angle, and recommence motion to correct it.
 
-== Custom Control==
+== PID Control ==
+
+!TinMan includes a simulated [PidHingeController PID controller].
+
+== Custom Control ==
 
 There are some cases where gain-based control is not the best choice.  For example, when the maximum power output is needed more than smooth motion, perhaps when kicking a ball, or diving across the goal in defense.
 
