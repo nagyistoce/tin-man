@@ -16,6 +16,8 @@ Some applications may require using only one or two actions to provide the appro
 
 !TinMan includes a software simulation of a PID controller to control hinge velocities relative to target positions.
 
+[http://tin-man.googlecode.com/svn/trunk/Documentation/pid-control.png http://tin-man.googlecode.com/svn/trunk/Documentation/pid-control-small.png]
+
 = Usage =
 
 The simulated PID controller is modelled via the [http://code.google.com/p/tin-man/source/browse/trunk/TinMan/PidHingeController.cs?spec=svn147&r=147 PidHingeController] class.  It is quite simple to use:
