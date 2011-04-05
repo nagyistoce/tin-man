@@ -20,7 +20,7 @@ This diagram shows the assignment of hinge names across the agent's body.  In th
 
 Another diagram showing hinge labels and orientations has been created by Stefan Glaser:
 
-[http://tin-man.googlecode.com/svn/trunk/Documentation/nao-joints-small.png]
+[http://tin-man.googlecode.com/svn/trunk/Documentation/nao-joints.png http://tin-man.googlecode.com/svn/trunk/Documentation/nao-joints-small.png]
 
 Download [http://tin-man.googlecode.com/svn/trunk/Documentation/nao-joints.png large PNG],
 [http://tin-man.googlecode.com/svn/trunk/Documentation/nao-joints.svg SVG]
@@ -29,7 +29,7 @@ Download [http://tin-man.googlecode.com/svn/trunk/Documentation/nao-joints.png l
 
 This diagram, also by Stefan Glaser, shows the various body parts in box form:
 
-[http://tin-man.googlecode.com/svn/trunk/Documentation/nao-boxmodel-small.png]
+[http://tin-man.googlecode.com/svn/trunk/Documentation/nao-boxmodel.png http://tin-man.googlecode.com/svn/trunk/Documentation/nao-boxmodel-small.png]
 
 Download [http://tin-man.googlecode.com/svn/trunk/Documentation/nao-boxmodel.png large PNG],
 [http://tin-man.googlecode.com/svn/trunk/Documentation/nao-boxmodel.svg SVG]
