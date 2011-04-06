@@ -1,5 +1,4 @@
 #summary Configuration of TinMan parameters without recompilation
-#labels Phase-Implementation
 
 = Introduction =
 
