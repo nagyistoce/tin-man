@@ -143,3 +143,4 @@ Some points to note when dealing with these perceptor values:
  * Certain values will always be `null` when using `NaoBody` (such as `UniversalJointStates`, and possibly `TouchStates`, `AgentBattery` and `AgentTemperature`.)
  * Some perceptors do not report their value every simulation cycle (the vision perceptor is a good example).  Make sure your design caters for this.
  * You can call `ToString()` on the `PerceptorState` object to get a formatted string of all percepts contained within the state snapshot.  This can be useful for debugging.
+ * Some perceptors are inherently noisy and should have their values smoothed somehow.
