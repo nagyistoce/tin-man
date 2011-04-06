@@ -1,6 +1,34 @@
 #summary A running history of what changed between releases
 #labels Featured
 
+= 0.5.4 =
+
+_Released 2011-04-06_
+
+  * Updated default field dimensions to 14x21m (was 12x18m).
+  * Perceptor data parser now handles line data from server, making it available on PerceptorState via instances of VisibleLine.
+  * Now logging a warning if the agent attempts to beam during an invalid play mode.
+  * Added `PlayMode` property to `SimulationContext`.
+  * Renamed `FieldGeometry` to `Measures`, and made it an instance class.
+  * Renamed `IAgent.Initialise` to `OnInitialise`.
+  * Renamed `IAgent.ShutDown` to `OnShuttingDown`.
+  * Renamed `AgentHost.UniformNumber` to `DesiredUniformNumber`.
+  * Added `Measures` property to `AgentBase`.
+  * Measures may now be optionally specified via configuration files.
+  * Added `KillSimulator` method to `Wizard` class.
+  * `AgentHost` now throws exceptions on property setters for invalid values, or for setting values after `Run` has been called.
+  * `AgentHost` now throws an exception if team name contains characters that the server would not accept.
+  * Created new `PidHingeController` class which is an implementation of a PID controller, providing an alternative control mechanism for hinge joints.
+  * Appended new argument to the signature for control functions.  They now accept an instance of `PerceptorState` as well.  This was required to analyse the simulation timer for `PidHingeController` and is probably of use to other implementations of hinge control functions.
+  * Created sample agent `PidAgent` for experimentation with the new `PidHingeController` class.
+  * [Wizard] sends correct formatting for vector values to server, irrespective of the user's current culture.  This problem is seen in regions where numbers are formatted 1.234,56 instead of 1,234.56 (such as Russia, Germany and France.)
+  * Removed some comma separators from between numeric values to avoid confusion in cultures where commas are used as decimal separators.
+  * Updated `WizardExample` to set agent Z-position to a sensible value such that the body does not intersect the field.
+  * Improved Debug.Assert failure messages for RoboViz shape serialisation.
+  * [RoboViz] `Shapes` now throw exceptions if attempts are made to set double properties to NaN or infinite values.
+  * Removed unused class `PerceptorDataParser`, moving useful comments to `Parser Notes.txt`
+  * Extended API documentation.
+
 = 0.5.3 =
 
 _Released 2011-03-11_
