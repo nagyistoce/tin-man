@@ -136,6 +136,33 @@ Here is the full list of data available via the [http://code.google.com/p/tin-ma
 ||`HeardMessages`||`IEnumerable<HeardMessage>`||Gets any messages that were heard by the agent's audio perceptor.||
 ||`AgentPosition`||`Vector3?` (nullable)||Gets the position of the agent on the field in world coordinates via the Vector3's X and Y properties, with the agent's heading in the Z property. Note that this property is only ever populated by the server when a special configuration option is used.  This option is not used in competitions, however it can be useful for training your agent.  To enable this value, set `(setSenseMyPos true)` in `rcssserver3d/rsg/agent/nao/naoneckhead.rsg`.||
 
+=Noise=
+
+Some perceptors are inherently noisy and should have their values smoothed somehow.
+
+Here is an example of applying a weighted average to the accelerometer's output:
+
+{{{
+public sealed class AccelerationSmoother
+{
+    private Vector3 _acc;
+        
+    public double Weight { get; set; }
+
+    public AccelerationSmoother()
+    {
+        Weight = 0.9;
+        _acc = Vector3.Origin;
+    }
+
+    public Vector3 GetSmoothedAcceleration(Vector3 acc)
+    {
+        _acc = (_acc*Weight) + (acc*(1 - Weight));
+        return _acc;
+    }
+}
+}}}
+
 =Tips=
 
 Some points to note when dealing with these perceptor values:
@@ -143,4 +170,3 @@ Some points to note when dealing with these perceptor values:
  * Certain values will always be `null` when using `NaoBody` (such as `UniversalJointStates`, and possibly `TouchStates`, `AgentBattery` and `AgentTemperature`.)
  * Some perceptors do not report their value every simulation cycle (the vision perceptor is a good example).  Make sure your design caters for this.
  * You can call `ToString()` on the `PerceptorState` object to get a formatted string of all percepts contained within the state snapshot.  This can be useful for debugging.
- * Some perceptors are inherently noisy and should have their values smoothed somehow.
