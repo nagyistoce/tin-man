@@ -24,6 +24,7 @@ Your agent is fitted with a camera in its head.  When any of the following are w
  * The bottoms of the corner flags
  * The top corners of both goals
  * Team mates and opposition players, and the relative arrangement of their limbs
+ * Any visible field lines
 
 Let's assume you have a localiser service that determines your agent's position and orientation on the field.  It has an interface like this:
 
