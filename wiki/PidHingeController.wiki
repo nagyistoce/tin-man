@@ -20,7 +20,7 @@ Some applications may require using only one or two actions to provide the appro
 
 = Usage =
 
-The simulated PID controller is modelled via the [http://code.google.com/p/tin-man/source/browse/trunk/TinMan/PidHingeController.cs?spec=svn147&r=147 PidHingeController] class.  It is quite simple to use:
+The simulated PID controller is modelled via the [http://code.google.com/p/tin-man/source/browse/trunk/TinMan/PidHingeController.cs PidHingeController] class.  It is quite simple to use:
 
 {{{
 class PidAgent : AgentBase<NaoBody>
