@@ -1,12 +1,23 @@
 #summary A running history of what changed between releases
 #labels Featured
 
+= 0.5.5 =
+
+_Released 2011-04-19_
+
+  * Fixed bug where hearing certain messages from other agents would cause parser errors.
+  * Added validation on {{{Sphere.RadiusMetres}}}.
+  * Added dot product method to {{{Vector3}}}.
+  * Added negation operator to {{{Vector3}}}.
+  * Added {{{UnitX}}}, {{{UnitY}}}, {{{UnitZ}}} constants to {{{Vector3}}}.
+  * Several changes to {{{TransformationMatrix}}} (still in alpha).
+
 = 0.5.4 =
 
 _Released 2011-04-06_
 
   * Updated default field dimensions to 14x21m (was 12x18m).
-  * Perceptor data parser now handles line data from server, making it available on PerceptorState via instances of VisibleLine.
+  * Perceptor data parser now handles line data from server, making it available on !PerceptorState via instances of !VisibleLine.
   * Now logging a warning if the agent attempts to beam during an invalid play mode.
   * Added `PlayMode` property to `SimulationContext`.
   * Renamed `FieldGeometry` to `Measures`, and made it an instance class.
