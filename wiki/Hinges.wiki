@@ -87,16 +87,15 @@ Even after the hinge reaches its desired angle and motion has ceased, the hinge 
 
 There are some cases where gain-based control is not the best choice.  For example, when the maximum power output is needed more than smooth motion, perhaps when kicking a ball, or diving across the goal in defense.
 
-If you find that `MoveToWithGain` doesn't suit your every need then the good news is that you can use your own hinge control functions as well.  Here's a ridiculous example that sets a random speed for the hinge every cycle.
+If you find that `MoveToWithGain` doesn't suit your every need then the good news is that you can use your own hinge control functions as well.  Here's a ridiculous example that sets a random speed for the every 250 milliseconds (taken from the [http://code.google.com/p/tin-man/source/browse/trunk/TinMan.Samples.CSharp/WavingAgent.cs WavingAgent] sample).
 
 {{{
-if (c=='?')
-{
-    var random = new Random();
-    Body.LAJ1.SetControlFunction((hinge, ctx) => {
-        return AngularSpeed.FromDegreesPerSecond(random.Next(100) - 50);
-    });
-}
+var random = new Random();
+
+Body.LAJ1.SetControlFunction((hinge, context, perceptorState) => 
+    perceptorState.SimulationTime.Milliseconds % 250 == 0 
+    ? AngularSpeed.FromDegreesPerSecond(random.Next(200) - 100) 
+    : AngularSpeed.NaN);
 }}}
 
 Each hinge has a `SetControlFunction` that takes a delegate as a callback function.  In this case, we pass a lambda expression that computes a random speed.  Any sensible implementation would examine the hinge's current angle in order to close the feedback loop.
