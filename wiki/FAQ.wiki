@@ -41,7 +41,7 @@ Yes, you can.  You would need to create the appropriate Ruby Scene Graph (RSG) f
 
 ==Will this run with Mono on Linux?==
 
-Yes.  The released binary works fine under Mono.  It has been tested on Ubuntu 10.04 using MonoDevelop and Mono 2.4.4.
+Yes.  The released binary works fine under Mono.  It has been tested on Ubuntu 11.10 using MonoDevelop and Mono 2.10.8.
 
 ==!TinMan is logging to the console.  How can I redirect its log messages to my logging framework?==
 
@@ -63,3 +63,7 @@ If you get the error...
  {{{Error CS1061: Type 'TinMan.Hinge' does not contain a definition for 'MoveToWithGain' and no extension method 'MoveToWithGain' of type 'TinMan.Hinge' could be found (are you missing a using directive or an assembly reference?)}}}
 
 ...then make sure you have a reference to {{{System.Core.dll}}} in your project.
+
+==Will _Agent Sync Mode_ work?==
+
+Yes.  You don't need to make any changes to your agent to run in either [http://simspark.sourceforge.net/wiki/index.php/AgentSyncMode agent sync mode] or real time mode.  !TinMan will always send the requisite [http://simspark.sourceforge.net/wiki/index.php/Effectors#Synchronize_Effector `(syn)` command] at the end of each simulation cycle.
