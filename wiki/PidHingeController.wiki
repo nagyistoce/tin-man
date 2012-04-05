@@ -18,6 +18,8 @@ Some applications may require using only one or two actions to provide the appro
 
 [http://tin-man.googlecode.com/svn/trunk/Documentation/pid-control.png http://tin-man.googlecode.com/svn/trunk/Documentation/pid-control-small.png]
 
+You can view the source of [http://code.google.com/p/tin-man/source/browse/trunk/TinMan/PidHingeController.cs PidHingeController.cs].
+
 = Usage =
 
 The simulated PID controller is modelled via the [http://code.google.com/p/tin-man/source/browse/trunk/TinMan/PidHingeController.cs PidHingeController] class.  It is quite simple to use:
