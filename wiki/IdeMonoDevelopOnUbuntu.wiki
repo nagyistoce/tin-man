@@ -11,7 +11,7 @@ The machines used in most Robocup competitions are based on the Ubuntu distribut
 
 The process outlined here does not vary for stable releases of Ubuntu 10.10.  If you find any differences for newer distributions, please let me know so I can update this documentation.
 
-[http://drewnoakes.com/tin-man/tin-man-monodevelop-window.png]
+[https://tin-man.googlecode.com/svn-history/r201/wiki/tin-man-monodevelop-window.png]
 
 = Installation =
 
@@ -62,7 +62,7 @@ You must reference the !TinMan library from your project:
 
 Your project's references should look like this:
 
-[http://drewnoakes.com/tin-man/tin-man-monodevelop-solution-references.png]
+[https://tin-man.googlecode.com/svn-history/r201/wiki/tin-man-monodevelop-solution-references.png]
 
 Congratulations, you're now ready to start coding your agent! Return to the [GettingStarted#Your_First_Agent GettingStarted] page for some sample agent code to get started with.
 
